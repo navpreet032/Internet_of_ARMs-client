@@ -1,0 +1,28 @@
+input{
+    width: 80%;
+    height: 90%;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    color: #fff;
+    background-color: #292826;
+    text-align: center;
+    padding: .5rem;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid #ff6f41;
+    border-radius: 4px;
+    
+    
+}
+::placeholder{
+    color:#ffffff;
+    opacity: .1;
+}
+
+input:focus{
+    border: 2px solid #ff6f41;
+    padding: .6rem;
+    transition: all 0.2s ease-in-out;
+}

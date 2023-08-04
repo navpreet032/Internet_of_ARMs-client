@@ -1,0 +1,53 @@
+.dropdown {
+  position: absolute;
+  top: 1rem;
+  right: .5rem;
+}
+
+.play_button {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 1%;
+  padding: 8px;
+  left: 12%;
+
+}
+
+.arm_input {
+  right: -34px;
+  position: absolute;
+  bottom: 14px;
+  width: 0%;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.arm_input.expanded {
+  width: 33%;
+  opacity: 1;
+}
+.clearicon 
+{
+  position: absolute;
+  right: 45px;
+  bottom: 40px;
+  padding: 8px;
+  cursor: pointer;
+  color: #ff4f46;
+  transition: all 0.3s ease-in-out;
+}
+
+.record_button {
+  position: absolute;
+  display: flex;
+  right: 10px;
+  bottom: 0.9%;
+  flex-direction: column;
+  z-index: 99;
+  transition: all 0.3s ease-in-out;
+}
+
+.record_button.pressed{
+  right:320px;
+}
