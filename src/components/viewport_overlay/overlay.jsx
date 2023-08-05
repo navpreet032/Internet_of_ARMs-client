@@ -4,12 +4,16 @@ import Arm_Input from '../input/Arm_Input';
 import Dropdown from '../dropdown/dropdown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch, useSelector } from 'react-redux';
-
 import './overlay.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { SET_recordingList, SET_playing_Or_paused, SET_recording_Or_saved } from '../../redux/arm_slice';
 import axios from 'axios';
 
-
+/**
+ * Overlay component that displays the robotic arm controls and recording options.
+ * @returns {JSX.Element} Overlay component
+ */
 function Overlay() {
 
   const dispatch = useDispatch();
@@ -22,13 +26,12 @@ function Overlay() {
   const [inputText, setInputText] = useState('');
   const [recording_list, setRecording_list] = useState(['rec', 'rec2']);
 
-
   const get_servoAngles = useSelector(state => state.arm.get_servoAngles);
-// get the recording names from db when component mounts
+
+  // get the recording names from db when component mounts
   useEffect(() => {
     const db_recordings = async () => await axios.get(`${SERVER}/getrecordings`).
       then((response) => {
-
 
         const recordings = Object.values(response.data);
         const recordingNames = recordings.map((recording) => recording.RecordingName);
@@ -40,20 +43,37 @@ function Overlay() {
     db_recordings();
   }, []);
 
-  // upload the recording to db
+  /**
+   * Uploads the recording to the database.
+   * Updates the recording list and dispatches the list to the store.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   */
   const upload_recording = async (req,res) => {
     await axios.post(`${SERVER}/arms/${inputText}`, {
       RecordingName: inputText,
       ServoAngles: {"s1":get_servoAngles[0],"s2":get_servoAngles[1],"s3":get_servoAngles[2],"s4":get_servoAngles[3]}
     }).then((response) => {
       console.log(response);
+      // when new recodrging is saved successfully then only update the list and dispatch
+      setRecording_list([...recording_list, inputText]);
+      dispatch(SET_recordingList([...recording_list]));
+      toast.success('Successfully saved recording !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
     }
     ).catch((error) => {
       console.log(error);
+      toast.error('Failed to save recording !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
     } 
     );
   }
 
+  /**
+   * Handles the record button click event.
+   */
   const handleRecordClick = () => {
     setIsRecording(!isRecording);
     setIsSave_button(isRecording ? 'record' : 'save');
@@ -61,18 +81,23 @@ function Overlay() {
     console.log("record pressed")
   };
 
+  /**
+   * Handles the save button click event.
+   */
   const handleSaveClick = () => {
     setIsRecording(!isRecording);
     setIsSave_button(isRecording ? 'record' : 'save');
     dispatch(SET_recording_Or_saved("save"));
-    setRecording_list([...recording_list, inputText]);
-    dispatch(SET_recordingList([...recording_list]));
+    
 
     upload_recording();
     
     console.log("save pressed")
   }
 
+  /**
+   * Handles the play button click event.
+   */
   const handlePlayClick = () => {
     setIsPlaying(!isPlaying);
     setIsPause_button(isPlaying ? 'play' : 'pause');
@@ -80,6 +105,9 @@ function Overlay() {
     console.log("play pressed")
   }
 
+  /**
+   * Handles the pause button click event.
+   */
   const handlePauseClick = () => {
     setIsPlaying(!isPlaying);
     setIsPause_button(isPlaying ? 'play' : 'pause');
@@ -87,21 +115,28 @@ function Overlay() {
     console.log("pause pressed")
   }
 
+  /**
+   * Handles the input change event.
+   * @param {Object} e - The event object.
+   */
   const handleInputChange = (e) => {
     setInputText(e.target.value);
     console.log(inputText)
 
   }
+
+  /**
+   * Handles the clear button click event.
+   */
   const handleClearClick = () => {
     setIsRecording(!isRecording);
     setInputText('');
     setIsSave_button(isRecording ? 'record' : 'save');
   }
 
-
-
   return (
-    <div>
+    <div className='main'>
+
 
       <div className='dropdown'>
         <Dropdown options={recording_list} />
@@ -117,11 +152,7 @@ function Overlay() {
       <div className={`arm_input ${isRecording ? 'expanded' : ''}`}>
         <Arm_Input placeholder={"type here"} onChange={handleInputChange} />
         <ClearIcon className='clearicon' onClick={handleClearClick}/>
-          
-        
       </div>
-
-
 
     </div>
   )

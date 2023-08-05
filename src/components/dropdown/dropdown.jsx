@@ -3,6 +3,11 @@ import { useDispatch } from 'react-redux';
 import { SET_selectedrecording } from '../../redux/arm_slice';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
+/**
+ * A dropdown component that allows the user to select an option from a list of options.
+ * @param {Object} options - An array of options to be displayed in the dropdown.
+ * @returns {JSX.Element} - A dropdown component with the selected option displayed.
+ */
 function Dropdown({ options }) {
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
@@ -21,7 +26,6 @@ function Dropdown({ options }) {
         {options.map(option => (
           <>
           <option key={option} value={option}>{option} </option>
-          
           </>
         ))}
       </select>
