@@ -1,7 +1,14 @@
-   <ascii-art-style
-		style="green"
-	>Internet Of ARMs</ascii-art-style>
-    
+
+
+ __     __   __     ______   ______     ______     __   __     ______     ______      ______     ______      ______     ______     __    __     ______    
+/\ \   /\ "-.\ \   /\__  _\ /\  ___\   /\  == \   /\ "-.\ \   /\  ___\   /\__  _\    /\  __ \   /\  ___\    /\  __ \   /\  == \   /\ "-./  \   /\  ___\   
+\ \ \  \ \ \-.  \  \/_/\ \/ \ \  __\   \ \  __<   \ \ \-.  \  \ \  __\   \/_/\ \/    \ \ \/\ \  \ \  __\    \ \  __ \  \ \  __<   \ \ \-./\ \  \ \___  \  
+ \ \_\  \ \_\\"\_\    \ \_\  \ \_____\  \ \_\ \_\  \ \_\\"\_\  \ \_____\    \ \_\     \ \_____\  \ \_\       \ \_\ \_\  \ \_\ \_\  \ \_\ \ \_\  \/\_____\ 
+  \/_/   \/_/ \/_/     \/_/   \/_____/   \/_/ /_/   \/_/ \/_/   \/_____/     \/_/      \/_____/   \/_/        \/_/\/_/   \/_/ /_/   \/_/  \/_/   \/_____/ 
+                                                                                                                                                          
+
+
+
 ## Introduction
 
 >This project allows users to control a robotic arm from anywhere in the world using a website 🌐. The website provides a control panel 🕹 and a 3D viewport 🏗, which >shows the live movement of the arm in a virtual world 🌎.
