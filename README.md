@@ -36,8 +36,6 @@
   
   `git clone https://github.com/navpreet032/Internet_of_ARMs-client.git`
 
-  and 
-  
   `git clone https://github.com/navpreet032/Internet_of_ARMs-api.git`
 
 - Navigate to the Project Directory and Install Dependencies
