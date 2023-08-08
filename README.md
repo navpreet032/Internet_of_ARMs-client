@@ -48,3 +48,14 @@
   
        for client : "npm run dev"
        for server : "npm start"
+
+## LED Codes
+
+```
+| LED Pattern 	| Meaning/Status             	| Explanation                                                                                 	| Action Required                                                  	| Next Step                                  	|
+|-------------	|----------------------------	|---------------------------------------------------------------------------------------------	|------------------------------------------------------------------	|--------------------------------------------	|
+| Blink 2x    	| WiFi Whisperer 📡           	| The ESP32 is having a heart-to-heart conversation with the WiFi waves                       	| --                                                               	| --                                         	|
+| Blink 4x    	| Server on a Coffee Break ☕️ 	| The server's coffee break is in progress, or someone might have misspelled the URL          	| Check the server status or check weather the URL is Correct      	| Restart server, Esp32                      	|
+| Solid Blink 	| 404: Bugs Not Found 🐞      	| Embrace the reality of living the code dream                                                	| --                                                               	| ENJOY !🎉                                   	|
+| No Blink    	| WiFi's Day Off 🛌           	| WiFi is enjoying a well-deserved day off. It's taking a break from its constant connections 	| Check the router weather it is on 2.4GHz, Check ssid & password  	| upload correct ssid & pass , restart ESP32 	|
+```
