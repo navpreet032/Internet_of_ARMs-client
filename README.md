@@ -36,13 +36,13 @@
   
   `git clone https://github.com/navpreet032/Internet_of_ARMs-client.git`
 
-  `git clone https://github.com/navpreet032/Internet_of_ARMs-api.git`
+  `git clone https://github.com/navpreet032/Internet_of_ARMs-Api.git`
 
 - Navigate to the Project Directory and Install Dependencies
   
   `cd Internet_of_ARMs-client` then `npm install`
 
-  `cd Internet_of_ARMs-api` then `npm install`
+  `cd Internet_of_ARMs-Api` then `npm install`
 
 - Run the Development Server
   
