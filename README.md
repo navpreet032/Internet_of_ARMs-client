@@ -30,3 +30,19 @@
 - `ReactThreeFiber`
 - `NodeJs`
 - `MongoDB`
+
+## Installation
+- Clone the Repositories
+  
+  `git clone https://github.com/navpreet032/Internet_of_ARMs-client.git`
+  `git clone https://github.com/navpreet032/Internet_of_ARMs-api.git`
+
+- Navigate to the Project Directory and Install Dependencies
+  
+  `cd Internet_of_ARMs-client` then `npm install`
+  `cd Internet_of_ARMs-api` then `npm install`
+
+- Run the Development Server
+  
+       for client : "npm run dev"
+       for server : "npm start"
