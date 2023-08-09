@@ -38,7 +38,7 @@ export const  armslice = createSlice({
     get_selectedRecording: "",// get the selected dropdown value
     get_recordingList: [],// get the list of recordings
     get_servoAngles: [],// get the servo angles
-    get_SERVER_URL: "http://13.239.20.33:3000",// get the server url
+    get_SERVER_URL: "<TYPE URL HERE>",// get the server url
   },
   reducers: {
     SET_playing_Or_paused: (state,action) => {
