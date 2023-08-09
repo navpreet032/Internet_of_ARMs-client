@@ -54,6 +54,20 @@
        for client : "npm run dev"
        for server : "npm start"
 
+
+## Setup
+- configure the connection to Node server :
+  
+  In `src --> redux --> arm_slice.jsx` : Change the value of **get_SERVER_URL** with your server url or localhost url.
+  
+- Configure ESP32 wifi SSID and PASSWORD :
+  
+  In `IOT_Arm.ino` file change SSID (network name) and Password (network Password) with your network credientials.
+
+  In `IOT_Arm.ino` file change `server` with your node server URL
+
+
+
 ## LED Codes
 
 ```
