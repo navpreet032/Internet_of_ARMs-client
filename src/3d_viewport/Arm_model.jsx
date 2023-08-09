@@ -65,7 +65,7 @@ export function ARM_model(props) {
    */
   const process_s2angle = (s2_angle) => {
     nodes.b_s2.position.set(0, 7, -0.8888888888888888);
-    const angle = map(s2_angle, 0, 180, -60, 60);
+    const angle = map(s2_angle, 0, 180, -100, 60);
     if (nodes.b_s2) {
       const euler = new Euler(-(angle * Math.PI / 180), -( 9.4), 0, 'XYZ');
       const quaternion = new Quaternion().setFromEuler(euler);
@@ -78,7 +78,7 @@ export function ARM_model(props) {
    * @param {number} s3_angle - Angle of servo 3 obtained from the Redux store.
    */
   const process_s3angle = (s3_angle) => {
-    const angle = map(s3_angle, 0, 180, -60, 60);
+    const angle = map(s3_angle, 0, 180, -80, 80);
     if (nodes.b_s3) {
       const euler = new Euler(-(angle * Math.PI / 180), 0, 0, 'XYZ');
       const quaternion = new Quaternion().setFromEuler(euler);
@@ -92,14 +92,16 @@ export function ARM_model(props) {
    */
 
   const set_s4angle = (s4_angle,y,x) => {
+
      const angle = map(s4_angle, 0, 180, -180, 0);
-    // if (nodes.baseB) {
-    //   const euler = new Euler(-0.214273996986359, angle * Math.PI / 180,-8.852837682223599e-17, 'XYZ');
-    //   const quaternion = new Quaternion().setFromEuler(euler);
-    //   nodes.baseB.quaternion.copy(quaternion);
-    // }
-    // snodes.b_s2.position.set(0, 7, -0.8888888888888888);
-    console.log("pos",nodes.b_s1.position);
+    if (nodes.baseB) {
+      const euler = new Euler(-.2, angle * Math.PI / 180,0, 'ZYX');
+      const quaternion = new Quaternion().setFromEuler(euler);
+      nodes.baseB.quaternion.copy(quaternion);
+    }
+    
+    console.log("pos",nodes.baseB.position);
+    
     
   }
 

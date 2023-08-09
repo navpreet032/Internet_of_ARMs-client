@@ -144,7 +144,7 @@ const ControlPanal = () => {
          */
         if (selected_recording) {
             handleRecordingSelect(selected_recording);
-            handleUpload('handleRecordingSelect');
+            //handleUpload('handleRecordingSelect');
             console.log("upload ", selected_recording)
 
         }
@@ -255,7 +255,7 @@ const ControlPanal = () => {
                     </div>
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s2} onChange={(_, value) => { setS2(value); handleSliderChanges() }} max={181} min={0} />
+                            <Slider value={s2} onChange={(_, value) => { setS2(value); handleSliderChanges() }} max={180} min={40} />
                         </Box>
                     </ThemeProvider>
                 </div>
@@ -267,7 +267,7 @@ const ControlPanal = () => {
                     </div>
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s3} onChange={(_, value) => { setS3(value); handleSliderChanges() }} max={181} min={0} />
+                            <Slider value={s3} onChange={(_, value) => { setS3(value); handleSliderChanges() }} max={120} min={20} />
                         </Box>
                     </ThemeProvider>
                 </div>
