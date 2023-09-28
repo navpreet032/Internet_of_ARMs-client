@@ -100,7 +100,7 @@ export function ARM_model(props) {
       nodes.baseB.quaternion.copy(quaternion);
     }
     
-    console.log("pos",nodes.baseB.position);
+    // console.log("pos",nodes.baseB.position);
     
     
   }

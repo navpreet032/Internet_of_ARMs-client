@@ -17,7 +17,7 @@ function Three_viewport() {
     <>
           <Canvas gl={{ logarithmicDepthBuffer: true }} camera={{ position: [-15, 0, 10], fov: 28 }} style={{borderRadius:'8px'}}>
             <fog attach="fog" args={['#292826', 15, 21.5]} />
-            <Stage intensity={0.5} environment="city"  adjustCamera={false} >
+            <Stage intensity={0.5} environment={null} adjustCamera={false} >
               
               <ARM_model scale={[.25,.25,.25]} position={[0,-1.8,0]} />
               
@@ -28,7 +28,8 @@ function Three_viewport() {
             <EffectComposer disableNormalPass>
               <Bloom luminanceThreshold={1} mipmapBlur />
             </EffectComposer>
-            <Environment background preset="sunset" blur={.8} />
+            <Environment background path='https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/hdris/potsdamer-platz/'  files='potsdamer_platz_1k.hdr' blur={.8} />
+            
           </Canvas>
           <Loader/>
           </>  

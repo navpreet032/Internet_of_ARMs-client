@@ -24,12 +24,14 @@ const ControlPanal = () => {
     
     const dispatch = useDispatch();
     const selected_recording = useSelector((state) => state.arm.get_selectedRecording);
+    const isPaused = useSelector((state) => state.arm.get_isPlaying_or_paused);
     const SERVER = useSelector((state) => state.arm.get_SERVER_URL);
 
     const [s1, setS1] = useState(0);
     const [s2, setS2] = useState(0);
     const [s3, setS3] = useState(0);
     const [s4, setS4] = useState(90);
+    
 
     const showToastMessage = (type) => {
         if (type === 'uploaded') {
@@ -68,6 +70,7 @@ const ControlPanal = () => {
     */
     const handleSliderChanges = () => {
         dispatch(SET_servoangles([s1, s2, s3, s4]));
+        console.log("first", s1)
     }
 
     // Loads servo angles from the database when the component mounts.
@@ -185,7 +188,6 @@ const ControlPanal = () => {
 
 
 
-
     return (
         <div className="control_main ">
             <ToastContainer
@@ -241,7 +243,7 @@ const ControlPanal = () => {
 
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s1} onChange={(_, value) => { setS1(value); handleSliderChanges() }} max={181} min={0} />
+                            <Slider value={s1} onChange={(_, value) => { setS1(value); handleSliderChanges() }} max={120} min={0} />
                         </Box>
                     </ThemeProvider>
 
