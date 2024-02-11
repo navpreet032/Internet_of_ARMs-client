@@ -66,20 +66,21 @@ const ControlPanal = () => {
         dispatch(CLEAR_SUCCESS())
         const currSentTime = Date.now();
         if(currSentTime - lastSentTime > RateLimiterThreshold){
+
         if(servo === "s1"){
-        sendSliderValue(s1.toString());
+        sendSliderValue("s1",s1);
         dispatch(SET_DATA("SERVO 1: " +s1    ));
         }
         if(servo === "s2"){
-            sendSliderValue(s2);
+            sendSliderValue("s2",s2);
             dispatch(SET_DATA("SERVO 2: " +s2));
         }
         if(servo === "s3"){
-            sendSliderValue(s3);
+            sendSliderValue("s3",s3);
             dispatch(SET_DATA("SERVO 3: " +s3));
         }
         if(servo === "s4"){
-            sendSliderValue(s4);
+            sendSliderValue("s4",s4);
             dispatch(SET_DATA("SERVO 4: " +s4));
         }
         lastSentTime = currSentTime;
@@ -175,8 +176,8 @@ const ControlPanal = () => {
     
       const { sendMessage } = useWebSocket('ws://localhost:3300', options);
     
-      const sendSliderValue = (servo) => {
-        const message = JSON.stringify({ event: "message", data: servo });
+      const sendSliderValue = (servoIdx,servoAngle) => {
+        const message = JSON.stringify({ event: "message",sId: servoIdx, data: servoAngle });
         sendMessage(message);
         console.log(`Message sent: ${message}`);
       };
