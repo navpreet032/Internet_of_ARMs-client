@@ -1,0 +1,85 @@
+/* SettingComponent.css */
+.Settingcontainer {
+  background: #fa734a42;
+  padding: 20px;
+  width: 250px;
+  max-width: 300px;
+  margin: auto;
+  border-radius: 8px;
+  z-index: 99;
+  position: absolute;
+  top: 11%;
+  right: 10%;
+  border: black solid .35px;
+  display: flex;
+  flex-direction: column; 
+
+}
+
+.input-container {
+  margin-bottom: 15px;
+    
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.Settingcontainer.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  direction: rtl;
+}
+
+.buttCont {
+  padding-top: 8px;
+  color: #1b1b1bbe;
+}
+
+.buttCont:hover {
+  padding-top: 8px;
+  color: #fb662c;
+  cursor: pointer;
+}
+
+
+.textBox {
+  background:#21201fa2;
+  max-width: 85%;
+color: rgb(248, 15, 54);
+  padding: 4px;
+  border: black solid 2px;
+  border-radius: 4px;
+  overflow-x: auto;
+  
+  /* Allow horizontal scrolling */
+  white-space: nowrap;
+   /* Hide scrollbar for Chrome, Safari and Opera */
+   &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.Recording-container{
+  position: absolute;
+  top: 8%;
+  right:6%;
+}

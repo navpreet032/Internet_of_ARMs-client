@@ -38,8 +38,11 @@ export const  armslice = createSlice({
     get_selectedRecording: "",// get the selected dropdown value
     get_recordingList: [],// get the list of recordings
     get_servoAngles: [],// get the servo angles
-    get_SERVER_URL: "http://13.54.240.53:3000",// get the server url
-    
+    get_IsSocketServer_online:false,
+    get_SERVER_URL: "http://54.206.21.5:3000",// get the server url
+    get_ERRORS:"",
+    get_SUCCESS:"",
+    get_DATA:"",
   },
   reducers: {
     SET_playing_Or_paused: (state,action) => {
@@ -56,12 +59,27 @@ export const  armslice = createSlice({
     },
     SET_servoangles: (state, action) => {
         state.get_servoAngles = action.payload;
-    }
+    },
+    SET_isSocketServerOnline:(state, action)=>{
+      state.get_IsSocketServer_online = action.payload;
+    },
+   SET_ERRORS:(state, action)=>{
+    state.get_ERRORS = action.payload;
+   },
+   SET_SUCCESS:(state, action)=>{
+    state.get_SUCCESS = action.payload;
+   },
+   CLEAR_SUCCESS: (state) => {
+    state.get_SUCCESS = ""; // Clear the success message
+  },
+   SET_DATA:(state, action)=>{
+    state.get_DATA = action.payload;
+   }
   },
 })
 
 // Action creators are generated for each case reducer function
 export const { SET_playing_Or_paused, SET_selectedrecording, 
-    SET_recording_Or_saved,SET_servoangles,SET_recordingList } = armslice.actions
+    SET_recording_Or_saved,SET_servoangles,SET_recordingList, SET_isSocketServerOnline, SET_DATA,SET_ERRORS,SET_SUCCESS,CLEAR_SUCCESS} = armslice.actions
 
 export default armslice.reducer

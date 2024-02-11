@@ -6,14 +6,16 @@
  */
 
 import './App.css'
-import ControlPanal from './components/controlPanal/controlpanal'
-import Overlay from './components/viewport_overlay/overlay'
-import Three_viewport from './3d_viewport/three_viewport';
+
 
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-
-
+import Home from './home/home';
+import Login from './login/register/login';
+import Signup from './signup/signup';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainViewport from './main_Viewport/mainViewport';
+import ProtectedRoute from './authcontext/protectedRoute'; // Adjust the impor
 
 /**
  * This is the main component of the Robotic Arm application.
@@ -36,12 +38,12 @@ function App() {
     }
   }
 
-  const isOnline = async() => {  
-    await fetch("https://www.google.com/", {mode: 'no-cors'}).then(() => {
+  const isOnline = async () => {
+    await fetch("https://www.google.com/", { mode: 'no-cors' }).then(() => {
       setIsConnected(true);
 
       console.log("connected")
-      
+
     }).catch(() => {
       setIsConnected(false);
       console.log("dissconnected")
@@ -51,7 +53,7 @@ function App() {
     );
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     showNetworkStatus();
   }, [isConnected]);
 
@@ -63,19 +65,24 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
- 
 
-    <div className='viewport'>
-    <Three_viewport />
-    <Overlay/>
-    </div>
-    
-    <div className='control'>
-    <ControlPanal/>
-    </div>
+
+    <div >
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/viewport" element={
+            <ProtectedRoute >
+                
+              <MainViewport />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </Router>
     </div>
   )
 }
-export default  App;
+export default App;
 

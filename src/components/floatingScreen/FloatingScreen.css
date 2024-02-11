@@ -1,0 +1,33 @@
+.status-display {
+  
+    border: 1.6px solid #000000; /* Same as background for a seamless look */
+    width: 300px; /* Set a fixed width */
+    margin: auto;
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow for rounded corners */
+    z-index: 999;
+  }
+  
+  .status-display .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #181717ee; /* Same as background */
+    color: #f0f0f0;
+    caret-color: transparent; 
+  cursor:move;
+  }
+
+  
+  
+  .status-display .content {
+    height: 150px; /* Fixed height for scrollable area */
+    overflow-y: auto; /* Only vertical scroll */
+    background-color: #151515a2; /* Light grey background */
+    padding: 10px;
+  }
+  
+  .status-display .message {
+    margin-bottom: 5px; /* Space between messages */
+  }
+  

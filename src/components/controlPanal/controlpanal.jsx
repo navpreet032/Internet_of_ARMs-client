@@ -11,17 +11,18 @@ import Slider from '@mui/material/Slider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Arm_Button from '../button/Arm_Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_servoangles } from '../../redux/arm_slice';
+import { CLEAR_SUCCESS, SET_DATA, SET_ERRORS, SET_SUCCESS, SET_isSocketServerOnline, SET_servoangles } from '../../redux/arm_slice';
 import axios from 'axios';
 import './controlpanal.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useWebSocket from 'react-use-websocket';
 
 
 //BUG : the circular slider is not working properly. It's value +- 1 from the actual value.
 const ControlPanal = () => {
     
-    
+    const WS_URL = 'ws://localhost:3300/';
     const dispatch = useDispatch();
     const selected_recording = useSelector((state) => state.arm.get_selectedRecording);
     const isPaused = useSelector((state) => state.arm.get_isPlaying_or_paused);
@@ -68,49 +69,30 @@ const ControlPanal = () => {
     /**
      * This function is called when any of the sliders are changed. It dispatches an action to update the servo angles in the Redux store.
     */
-    const handleSliderChanges = () => {
+    const handleSliderChanges = (servo) => {
+        dispatch(CLEAR_SUCCESS())
+        if(servo === "s1"){
+        sendSliderValue(s1.toString());
+        dispatch(SET_DATA("SERVO 1: " +s1    ));
+        }
+        if(servo === "s2"){
+            sendSliderValue(s2);
+            dispatch(SET_DATA("SERVO 2: " +s2));
+        }
+        if(servo === "s3"){
+            sendSliderValue(s3);
+            dispatch(SET_DATA("SERVO 3: " +s3));
+        }
+        if(servo === "s4"){
+            sendSliderValue(s4);
+            dispatch(SET_DATA("SERVO 4: " +s4));
+        }
+        
         dispatch(SET_servoangles([s1, s2, s3, s4]));
-        console.log("first", s1)
+        
     }
 
-    // Loads servo angles from the database when the component mounts.
-
-    useEffect(() => {
-        /**
-         * set the servo angles to the values in the database
-         * set the slider values to the values in the database
-         * call the handleSliderChanges function
-         * @returns {object} the servo angles from the database
-         */
-        const get_data = async () => {
-            const data = await axios.get(`${SERVER}/arms/`).then((res) => res.data).catch(() => {
-                toast.error('Connection with Db failed !', {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-            })
-
-            if (Array.isArray(data) && data.length > 0) {
-                const  ServoAngles  = data[0].ServoAngles;
-
-                if (typeof (ServoAngles) === 'object') {
-                    const { s1, s2, s3, s4 } = ServoAngles;
-                    setS1(s1);
-                    setS2(s2);
-                    setS3(s3);
-                    setS4(s4);
-
-                    handleSliderChanges();
-                } else {
-                    console.error('Invalid ServoAngles:', ServoAngles);
-                }
-            } else {
-                console.error('No data found:', data);
-            }
-        };
-
-        get_data();
-    }, []);
-
+   
 
     // Loads servo angles from the database when the user selects a recording.
 
@@ -120,23 +102,25 @@ const ControlPanal = () => {
          * @param {string} recordingId(name) of the recording to be selected
          * @returns {object} the servo angles of the selected recording 
          */
-        const handleRecordingSelect = async (recordingId) => {
+        const handleRecordingSelect = async (selectedrecordingId) => {
+            
             const recording = await axios
-                .get(`${SERVER}/arms/${recordingId}`)
+                .get(`api/recording/recordings?recordingName=${selectedrecordingId}`)
                 .then((res) => res.data)
                 .catch((err) => {
-                    toast.error('Cannot get selected Recording !', {
-                        position: toast.POSITION.TOP_RIGHT
-                    });
+                    dispatch(SET_ERRORS("Can't get : "+selectedrecordingId))
                     console.log(err);
                 });
 
             if (Array.isArray(recording) && recording.length > 0) {
-                const { s1, s2, s3, s4 } = recording[0].ServoAngles;
+               
+                const { s1, s2, s3, s4 } = recording[0].servoAngles;
                 setS1(s1);
                 setS2(s2);
                 setS3(s3);
                 setS4(s4);
+                dispatch(SET_SUCCESS("applied changes : "+recording[0].RecordingName))
+                console.log("handleRecordingSelect"+selectedrecordingId)
             }
         };
 
@@ -147,9 +131,7 @@ const ControlPanal = () => {
          */
         if (selected_recording) {
             handleRecordingSelect(selected_recording);
-            //handleUpload('handleRecordingSelect');
-            console.log("upload ", selected_recording)
-
+         
         }
         else {
             setS1(0);
@@ -159,34 +141,49 @@ const ControlPanal = () => {
         }
     }, [selected_recording]);
 
-    const ServoAngles = useSelector(state => state.arm.get_servoAngles);// get the servo angles from the redux store    
+    
 
-    const handleUpload = async (calledby) => {
-    /**
-     * Handles uploading servo angles to the database.
-     * @param {string} calledby - the function that called the handleUpload function
-     * @returns {void}
-     */
+    const options = React.useMemo(() => ({
+        onOpen: () => {
+        sendMessage("0xaa55");console.log('[open] Connection established'),
+        dispatch(SET_isSocketServerOnline(true))
+    },
+        onClose: (event) => {
+          if (event.wasClean) {
+            console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+          } else {
+            
+            dispatch(SET_isSocketServerOnline(false));
+            console.log('[close] Connection died');
+          }
+        },
+      
+        onMessage: (event) => {
+          console.log(`[message] Data received from server: ${event.data.text()}`);
+          if (typeof event.data !== "string") {
+            // Assuming the message is a JSON string
+            event.data.text().then(text =>{
+                const obj = JSON.parse(text);
 
-        await axios.put(`${SERVER}/arms/`, {
-            RecordingName: "",
-            ServoAngles: { "s1": ServoAngles[0], "s2": ServoAngles[1], "s3": ServoAngles[2], "s4": ServoAngles[3] }
-        }).then((response) => {
-            //console.log(response);
-            if (calledby !== 'handleRecordingSelect') {
-                showToastMessage('uploaded');
-            }
-        }
-        ).catch((error) => {
-            console.log(error);
-            showToastMessage('notuploaded');
-        }
-        );
-
-    }
-
-
-
+                console.log("out " + obj["data"]); 
+            })
+            
+          }
+        },
+        onError: (event) => console.log(`[error] ${event.message}`),
+        shouldReconnect: (closeEvent) => true, // Will attempt to reconnect on all close events
+        reconnectAttempts: 10, 
+        reconnectInterval: 3000, 
+        
+      }), []);
+    
+      const { sendMessage } = useWebSocket('ws://localhost:3300', options);
+    
+      const sendSliderValue = (servo) => {
+        const message = JSON.stringify({ event: "message", data: servo });
+        sendMessage(message);
+        console.log(`Message sent: ${message}`);
+      };
 
     return (
         <div className="control_main ">
@@ -227,7 +224,7 @@ const ControlPanal = () => {
                     max={180}
                     initialValue={s4}
                     dataIndex={s4}
-                    onChange={(e) => { setS4(e); handleSliderChanges() }}
+                    onChange={(e) => { setS4(e); handleSliderChanges("s4") }}
 
                 />
 
@@ -243,7 +240,7 @@ const ControlPanal = () => {
 
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s1} onChange={(_, value) => { setS1(value); handleSliderChanges() }} max={120} min={0} />
+                            <Slider value={s1} onChange={(_, value) => { setS1(value); handleSliderChanges("s1") }} max={120} min={0} />
                         </Box>
                     </ThemeProvider>
 
@@ -257,7 +254,7 @@ const ControlPanal = () => {
                     </div>
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s2} onChange={(_, value) => { setS2(value); handleSliderChanges() }} max={180} min={40} />
+                            <Slider value={s2} onChange={(_, value) => { setS2(value); handleSliderChanges("s2") }} max={180} min={40} />
                         </Box>
                     </ThemeProvider>
                 </div>
@@ -269,13 +266,13 @@ const ControlPanal = () => {
                     </div>
                     <ThemeProvider theme={theme}>
                         <Box sx={{ width: 300 }} color={'red'}>
-                            <Slider value={s3} onChange={(_, value) => { setS3(value); handleSliderChanges() }} max={120} min={20} />
+                            <Slider value={s3} onChange={(_, value) => { setS3(value); handleSliderChanges("s3") }} max={120} min={20} />
                         </Box>
                     </ThemeProvider>
                 </div>
 
                 <div className='upload_button'>
-                    <Arm_Button props={{ text: 'upload' }} onClick={handleUpload} />
+                    <Arm_Button props={{ text: 'upload' }} />
                 </div>
 
 
