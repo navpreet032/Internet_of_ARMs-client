@@ -22,6 +22,9 @@ import useWebSocket from 'react-use-websocket';
 //BUG : the circular slider is not working properly. It's value +- 1 from the actual value.
 const ControlPanal = () => {
     
+    let lastSentTime = new Date.now();
+    const RateLimiterThreshold = 150;//ms
+
     const WS_URL = 'ws://localhost:3300/';
     const dispatch = useDispatch();
     const selected_recording = useSelector((state) => state.arm.get_selectedRecording);
@@ -34,17 +37,7 @@ const ControlPanal = () => {
     const [s4, setS4] = useState(90);
     
 
-    const showToastMessage = (type) => {
-        if (type === 'uploaded') {
-            toast.success('Uploaded Successfully !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else if (type === 'notuploaded') {
-            toast.error('Upload Failed !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        }
-    };
+    
 
     // theme for slider
     const theme = createTheme({
@@ -71,6 +64,8 @@ const ControlPanal = () => {
     */
     const handleSliderChanges = (servo) => {
         dispatch(CLEAR_SUCCESS())
+        const currSentTime = Date.now();
+        if(currSentTime - lastSentTime > RateLimiterThreshold){
         if(servo === "s1"){
         sendSliderValue(s1.toString());
         dispatch(SET_DATA("SERVO 1: " +s1    ));
@@ -87,7 +82,8 @@ const ControlPanal = () => {
             sendSliderValue(s4);
             dispatch(SET_DATA("SERVO 4: " +s4));
         }
-        
+        lastSentTime = currSentTime;
+    }
         dispatch(SET_servoangles([s1, s2, s3, s4]));
         
     }
