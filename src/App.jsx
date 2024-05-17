@@ -15,7 +15,7 @@ import Login from './login/register/login';
 import Signup from './signup/signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainViewport from './main_Viewport/mainViewport';
-import ProtectedRoute from './authcontext/protectedRoute'; // Adjust the impor
+import ProtectedRoute from './authcontext/protectedRoute'; 
 
 /**
  * This is the main component of the Robotic Arm application.

@@ -22,10 +22,10 @@ import useWebSocket from 'react-use-websocket';
 //BUG : the circular slider is not working properly. It's value +- 1 from the actual value.
 const ControlPanal = () => {
     
-    let lastSentTime = new Date.now();
+    // let lastSentTime = new Date.now();
     const RateLimiterThreshold = 150;//ms
 
-    const WS_URL = 'ws://localhost:3300/';
+    const WS_URL = 'ws://localhost:8000/';
     const dispatch = useDispatch();
     const selected_recording = useSelector((state) => state.arm.get_selectedRecording);
     const isPaused = useSelector((state) => state.arm.get_isPlaying_or_paused);
@@ -64,26 +64,26 @@ const ControlPanal = () => {
     */
     const handleSliderChanges = (servo) => {
         dispatch(CLEAR_SUCCESS())
-        const currSentTime = Date.now();
-        if(currSentTime - lastSentTime > RateLimiterThreshold){
+        
+        if(true){
 
         if(servo === "s1"){
-        sendSliderValue("s1",s1);
+        sendSliderValue(1,s1.toString());
         dispatch(SET_DATA("SERVO 1: " +s1    ));
         }
         if(servo === "s2"){
-            sendSliderValue("s2",s2);
+            sendSliderValue(2,s2.toString());
             dispatch(SET_DATA("SERVO 2: " +s2));
         }
         if(servo === "s3"){
-            sendSliderValue("s3",s3);
+            sendSliderValue(3,s3.toString());
             dispatch(SET_DATA("SERVO 3: " +s3));
         }
         if(servo === "s4"){
-            sendSliderValue("s4",s4);
+            sendSliderValue(4,s4.toString());
             dispatch(SET_DATA("SERVO 4: " +s4));
         }
-        lastSentTime = currSentTime;
+        //lastSentTime = currSentTime;
     }
         dispatch(SET_servoangles([s1, s2, s3, s4]));
         
@@ -174,10 +174,11 @@ const ControlPanal = () => {
         
       }), []);
     
-      const { sendMessage } = useWebSocket('ws://localhost:3300', options);
+      const { sendMessage } = useWebSocket(WS_URL, options);
     
       const sendSliderValue = (servoIdx,servoAngle) => {
-        const message = JSON.stringify({ event: "message",sId: servoIdx, data: servoAngle });
+        const message = JSON.stringify({ "event": "message", "data": servoAngle,"servoIndex":servoIdx });
+        
         sendMessage(message);
         console.log(`Message sent: ${message}`);
       };
@@ -279,4 +280,4 @@ const ControlPanal = () => {
     )
 };
 
-export default ControlPanal;
+ export default ControlPanal;

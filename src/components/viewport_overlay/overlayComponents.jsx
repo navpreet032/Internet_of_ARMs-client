@@ -12,6 +12,7 @@ const SettingBox = ({ isHidden }) => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [UID, setUID] = useState("");
+
   const loadUid = async (Userid) => {
     try {
       const res = await axios.get(`api/user/${Userid}`);
@@ -26,7 +27,7 @@ const SettingBox = ({ isHidden }) => {
 
     var id = localStorage.getItem('USERid');
     loadUid(id)
-  })
+  },[])
   const handelLogout = async () => {
     console.log("LOGOUT")
     await auth.logout()
@@ -44,7 +45,7 @@ const SettingBox = ({ isHidden }) => {
 
           </div>
           <div className='input-container'>
-            <label htmlFor="text2" className='label'>Text2</label>
+            {/* <label htmlFor="text2" className='label'>Text2</label> */}
             {/* <input type="text" id="text2" className='input' /> */}
           </div>
           <div className='button-container'>

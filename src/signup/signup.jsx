@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Signup.css'; // Make sure to create a Signup.css file for styles
+import './Signup.css'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Signup = () => {
@@ -34,7 +34,7 @@ const Signup = () => {
   return (
     <div className="signup">
       <div className="logo">
-        {/* Placeholder for logo */}
+       
       </div>
       <h2>Create your account</h2>
       <form onSubmit={handleSubmit}>

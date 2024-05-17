@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './login.css'; // Make sure to create a Signup.css file for styles
+import './login.css'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../authcontext/authcontext';

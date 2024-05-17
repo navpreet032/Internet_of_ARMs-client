@@ -56,7 +56,7 @@ const FloatingScreen = () => {
     <Draggable handle='.handle' defaultPosition={{x: -600, y: 550 }}>
     <div className="status-display">
       <div className="header handle">
-        <span>Terminal</span>
+        <span>Terminal WS:</span>
         <span>{SERVERstatus?"Online":"Offline"}</span>
       </div>
       <div className="content">

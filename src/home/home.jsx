@@ -1,9 +1,9 @@
-import './Home.css'; // Make sure to create a Home.css file for styles
+import './Home.css'; 
 import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className="home">
-      <h1>Plan a trip to experience Seoul like a local</h1>
+      <h1>Internet Of ARMs</h1>
       <div className="buttons">
         
         <Link className="login-btn" to="/login">Login</Link>
